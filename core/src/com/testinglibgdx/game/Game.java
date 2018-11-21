@@ -112,11 +112,23 @@ public class Game extends ApplicationAdapter {
      */
 	public void createPlanetAtY(int y) {
         // Generate the random planet size
-        int planetRadius = (int)(Math.random() * ((Constants.MAX_PLANET_SIZE - Constants.MIN_PLANET_SIZE) + 1)) + Constants.MIN_PLANET_SIZE;
-        int minX = planetRadius + Constants.MIN_BUFFER;
-        int maxX = w - planetRadius - Constants.MIN_BUFFER;
-        int planetX = (int)(Math.random() * ((maxX - minX) + 1)) + minX;
-        planetList.add(new Planet(planetX,y,planetRadius,planetRadius+40));
+        int planetRadius = genRandom(Constants.MIN_PLANET_SIZE, Constants.MAX_PLANET_SIZE);
+        int gravityDiff = genRandom(Constants.MIN_GRAVITY_DIFFERENCE, Constants.MAX_GRAVITY_DIFFERENCE);
+        int gravityRadius = planetRadius + gravityDiff;
+        int minX = gravityRadius + Constants.MIN_BUFFER;
+        int maxX = w - gravityRadius - Constants.MIN_BUFFER;
+        int planetX = genRandom(minX, maxX);
+        planetList.add(new Planet(planetX,y,planetRadius,gravityRadius));
+    }
+
+    /**
+     * Generates a random int between min(inclusive) and max(inclusive)
+     * @param min
+     * @param max
+     * @return random number
+     */
+    public int genRandom(int min, int max) {
+	    return (int)(Math.random() * ((max - min) + 1)) + min;
     }
 
     /*
