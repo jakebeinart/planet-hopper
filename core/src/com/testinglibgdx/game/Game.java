@@ -72,8 +72,8 @@ public class Game extends ApplicationAdapter {
         if(orbiting){
             pilot.setX((int)(pilot.getOrbitingPlanet().getGravityInfo().x + Math.cos(Math.toRadians(pilot.getAngle()))*pilot.getOrbitingPlanet().getGravityInfo().radius));
             pilot.setY((int)(pilot.getOrbitingPlanet().getGravityInfo().y + Math.sin(Math.toRadians(pilot.getAngle()))*pilot.getOrbitingPlanet().getGravityInfo().radius));
-            pilot.setAngle((pilot.getAngle()+3)%360);
-            //MAKE THIS DEPEND ON LAUNCH VELOCITY
+            pilot.setAngle((pilot.getAngle()+6)%360);
+            //MAKE THIS DEPEND ON LAUNCH VELOCITY - w = v/r (fomula in radians)
         }else{
             //Use floats for more precision in takeoff
             precisePilotX += pilot.getVelocity()*Math.cos(Math.toRadians(pilot.getAngle()+90));

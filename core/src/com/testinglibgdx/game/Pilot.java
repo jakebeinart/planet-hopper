@@ -25,7 +25,7 @@ public class Pilot {
         pilotImage.setOrigin(25,25);
         pilotImage.setPosition(centerX-25, centerY-25);
 
-        this.velocity = 8;
+        this.velocity = 14;
 
         this.orbitingPlanet = orbitingPlanet;
     }
