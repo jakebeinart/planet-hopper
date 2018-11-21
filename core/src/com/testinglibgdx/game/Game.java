@@ -38,8 +38,9 @@ public class Game extends ApplicationAdapter {
 
 		//PLANET GENERATION
         planetList = new ArrayList<Planet>();
-        planetList.add(new Planet(w/2,200,100,130));
+        planetList.add(new Planet(w/2,200,60,130));
 
+        createPlanetAtY(1200);
         //Generate random initial planets
 
 
@@ -94,6 +95,18 @@ public class Game extends ApplicationAdapter {
 
         });
 	}
+
+    /**
+     * Given an integer y, will generate and create a random planet at that y.
+     */
+	public void createPlanetAtY(int y) {
+        // Generate the random planet size
+        int planetRadius = (int)(Math.random() * ((Constants.MAX_PLANET_SIZE - Constants.MIN_PLANET_SIZE) + 1)) + Constants.MIN_PLANET_SIZE;
+        int minX = planetRadius + Constants.MIN_BUFFER;
+        int maxX = w - planetRadius - Constants.MIN_BUFFER;
+        int planetX = (int)(Math.random() * ((maxX - minX) + 1)) + minX;
+        planetList.add(new Planet(planetX,y,planetRadius,planetRadius+40));
+    }
 	
 	@Override
 	public void dispose () {
