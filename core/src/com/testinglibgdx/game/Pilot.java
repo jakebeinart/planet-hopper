@@ -13,6 +13,7 @@ public class Pilot {
     private int centerX;
     private int centerY;
     private Vector2 trajectory = null;
+    private int velocity;
 
 
     Planet orbitingPlanet;
@@ -24,6 +25,8 @@ public class Pilot {
         pilotImage.setOrigin(25,25);
         pilotImage.setPosition(centerX-25, centerY-25);
 
+        this.velocity = 8;
+
         this.orbitingPlanet = orbitingPlanet;
     }
 
@@ -34,6 +37,10 @@ public class Pilot {
     public void setAngle(int angle) {
         pilotImage.setRotation((float)angle);
         this.angle = angle;
+    }
+
+    public int getVelocity() {
+        return velocity;
     }
 
     public int getAngle() {

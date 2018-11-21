@@ -18,7 +18,9 @@ public class Game extends ApplicationAdapter {
     boolean orbiting;
     int w = 0;
     int h = 0;
-    int newPilotY = 100;
+
+    float precisePilotX = 0;
+    float precisePilotY = 0;
 
 
     @Override
@@ -58,6 +60,7 @@ public class Game extends ApplicationAdapter {
 		batch.begin();
 		//DRAW PLANETS
 		for(Planet planet: planetList){
+		    planet.getGravityImage().draw(batch);
             planet.getPlanetImage().draw(batch);
         }
 
@@ -70,8 +73,13 @@ public class Game extends ApplicationAdapter {
             pilot.setX((int)(pilot.getOrbitingPlanet().getGravityInfo().x + Math.cos(Math.toRadians(pilot.getAngle()))*pilot.getOrbitingPlanet().getGravityInfo().radius));
             pilot.setY((int)(pilot.getOrbitingPlanet().getGravityInfo().y + Math.sin(Math.toRadians(pilot.getAngle()))*pilot.getOrbitingPlanet().getGravityInfo().radius));
             pilot.setAngle((pilot.getAngle()+3)%360);
+            //MAKE THIS DEPEND ON LAUNCH VELOCITY
         }else{
-
+            //Use floats for more precision in takeoff
+            precisePilotX += pilot.getVelocity()*Math.cos(Math.toRadians(pilot.getAngle()+90));
+            precisePilotY += pilot.getVelocity()*Math.sin(Math.toRadians(pilot.getAngle()+90));
+            pilot.setX((int)(precisePilotX));
+            pilot.setY((int)(precisePilotY));
         }
 
         Gdx.input.setInputProcessor(new InputAdapter(){
@@ -79,6 +87,8 @@ public class Game extends ApplicationAdapter {
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 orbiting = !orbiting;
+                precisePilotX = pilot.getRealX();
+                precisePilotY = pilot.getRealY();
                 return true;
             }
 
