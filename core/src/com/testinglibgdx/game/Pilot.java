@@ -23,9 +23,13 @@ public class Pilot {
     Pilot(Planet orbitingPlanet){
         this.centerX = (int)(orbitingPlanet.getGravityInfo().x + Math.cos(Math.toRadians(angle))*orbitingPlanet.getGravityInfo().radius);
         this.centerY = (int)(orbitingPlanet.getGravityInfo().y + Math.sin(Math.toRadians(angle))*orbitingPlanet.getGravityInfo().radius);
-        pilotImage.setSize(PILOT_SIZE,PILOT_SIZE);
-        pilotImage.setOrigin(PILOT_SIZE/2,PILOT_SIZE/2);
-        pilotImage.setPosition(centerX-(PILOT_SIZE/2), centerY-(PILOT_SIZE/2));
+
+        this.pilotImage.setSize(PILOT_SIZE,PILOT_SIZE);
+        this.pilotImage.setOrigin(PILOT_SIZE/2,PILOT_SIZE/2);
+        this.pilotImage.setRotation(90);
+        this.angle = 90;
+        this.pilotImage.setPosition(centerX-(PILOT_SIZE/2), centerY-(PILOT_SIZE/2));
+
 
         this.velocity = 14;
 
