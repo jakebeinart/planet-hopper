@@ -32,6 +32,7 @@ public class Pilot {
     }
 
     public void setAngle(int angle) {
+        pilotImage.setRotation((float)angle);
         this.angle = angle;
     }
 
