@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.awt.Polygon;
 
+import static com.testinglibgdx.game.Constants.PILOT_SIZE;
+
 public class Pilot {
     private Sprite pilotImage = new Sprite(new Texture("pilot.png"));
     private Polygon hitbox = null;
@@ -21,9 +23,9 @@ public class Pilot {
     Pilot(Planet orbitingPlanet){
         this.centerX = (int)(orbitingPlanet.getGravityInfo().x + Math.cos(Math.toRadians(angle))*orbitingPlanet.getGravityInfo().radius);
         this.centerY = (int)(orbitingPlanet.getGravityInfo().y + Math.sin(Math.toRadians(angle))*orbitingPlanet.getGravityInfo().radius);
-        pilotImage.setSize(50,50);
-        pilotImage.setOrigin(25,25);
-        pilotImage.setPosition(centerX-25, centerY-25);
+        pilotImage.setSize(PILOT_SIZE,PILOT_SIZE);
+        pilotImage.setOrigin(PILOT_SIZE/2,PILOT_SIZE/2);
+        pilotImage.setPosition(centerX-(PILOT_SIZE/2), centerY-(PILOT_SIZE/2));
 
         this.velocity = 14;
 
@@ -48,13 +50,13 @@ public class Pilot {
     }
 
     public void setX(int x){
-        pilotImage.setPosition(x-25, centerY);
-        centerX = x-25;
+        pilotImage.setPosition(x-(PILOT_SIZE/2), centerY);
+        centerX = x-(PILOT_SIZE/2);
     }
 
     public void setY(int y){
-        pilotImage.setPosition(centerX, y-25);
-        centerY = y-25;
+        pilotImage.setPosition(centerX, y-(PILOT_SIZE/2));
+        centerY = y-(PILOT_SIZE/2);
     }
 
     public int getCenterX() {
@@ -66,11 +68,11 @@ public class Pilot {
     }
 
     public int getRealX(){
-        return centerX+25;
+        return centerX+(PILOT_SIZE/2);
     }
 
     public int getRealY(){
-        return centerY+25;
+        return centerY+(PILOT_SIZE/2);
     }
 
     public Sprite getPilotImage() {

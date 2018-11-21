@@ -1,5 +1,6 @@
 package com.testinglibgdx.game;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
@@ -7,8 +8,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.GridPoint2;
 
+import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+
+import static com.testinglibgdx.game.Constants.PILOT_SIZE;
 
 public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -33,12 +39,12 @@ public class Game extends ApplicationAdapter {
 	    camera.setToOrtho(false, w, h);
 		batch = new SpriteBatch();
 
-
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
 
 		//PLANET GENERATION
         planetList = new ArrayList<Planet>();
-        planetList.add(new Planet(w/2,200,60,130));
+        planetList.add(new Planet(w/2,200,60,150));
 
         createPlanetAtY(1200);
         //Generate random initial planets
@@ -90,6 +96,11 @@ public class Game extends ApplicationAdapter {
                 orbiting = !orbiting;
                 precisePilotX = pilot.getRealX();
                 precisePilotY = pilot.getRealY();
+
+                if (!orbiting){
+                    isGoingToCollide();
+                }
+
                 return true;
             }
 
@@ -107,7 +118,48 @@ public class Game extends ApplicationAdapter {
         int planetX = (int)(Math.random() * ((maxX - minX) + 1)) + minX;
         planetList.add(new Planet(planetX,y,planetRadius,planetRadius+40));
     }
-	
+
+    /*
+     * Determine if pilot is on trajectory to hit planet
+     */
+
+    public boolean isGoingToCollide(){
+        boolean collision = false;
+
+        //DETERMINE COLLISION
+        //First point starts at unit length of 105 because we don't want to accidentally hit the
+        float generatedX = precisePilotX;// + (float)(100*Math.cos(Math.toRadians(pilot.getAngle()+90)));
+        float generatedY = precisePilotY;// + (float)(100*Math.sin(Math.toRadians(pilot.getAngle()+90)));
+
+        int unitLength = 5;
+
+        ArrayList<GridPoint2> trajectoryVector = new ArrayList<GridPoint2>();
+
+        while(generatedX >=0 && generatedX <= w && generatedY >= 0 && generatedY <= h){
+            generatedX += unitLength * Math.cos(Math.toRadians(pilot.getAngle()+90));
+            generatedY += unitLength * Math.sin(Math.toRadians(pilot.getAngle()+90));
+            trajectoryVector.add(new GridPoint2((int)generatedX, (int)generatedY));
+        }
+
+        for(GridPoint2 point: trajectoryVector){
+            if(collision){
+                break;
+            }
+            for(Planet planet: planetList){
+                GridPoint2 planetCenter = new GridPoint2((int)planet.getGravityInfo().x, (int)planet.getGravityInfo().y);
+                if(planet != pilot.getOrbitingPlanet()) {
+                    if (planetCenter.dst(point) <= (planet.getGravityInfo().radius + PILOT_SIZE / 2)) {
+                        collision = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        Gdx.app.debug("COLLISION?", String.valueOf(collision));
+        return collision;
+    }
+
 	@Override
 	public void dispose () {
 		batch.dispose();
