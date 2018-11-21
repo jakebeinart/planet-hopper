@@ -40,12 +40,12 @@ public class Pilot {
     }
 
     public void setX(int x){
-        pilotImage.setPosition(x-25, centerY-25);
+        pilotImage.setPosition(x-25, centerY);
         centerX = x-25;
     }
 
     public void setY(int y){
-        pilotImage.setPosition(centerX-25, y-25);
+        pilotImage.setPosition(centerX, y-25);
         centerY = y-25;
     }
 

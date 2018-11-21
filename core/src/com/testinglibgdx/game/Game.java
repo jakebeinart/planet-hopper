@@ -2,6 +2,7 @@ package com.testinglibgdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -66,19 +67,22 @@ public class Game extends ApplicationAdapter {
 
 		//DO LOGIC/MOVEMENT
         if(orbiting){
-            pilot.setX((int)(pilot.getOrbitingPlanet().getGravityInfo().x + Math.cos(Math.toRadians(pilot.getAngle()))*pilot.getOrbitingPlanet().getGravityInfo().radius)+25);
+            pilot.setX((int)(pilot.getOrbitingPlanet().getGravityInfo().x + Math.cos(Math.toRadians(pilot.getAngle()))*pilot.getOrbitingPlanet().getGravityInfo().radius));
             pilot.setY((int)(pilot.getOrbitingPlanet().getGravityInfo().y + Math.sin(Math.toRadians(pilot.getAngle()))*pilot.getOrbitingPlanet().getGravityInfo().radius));
             pilot.setAngle((pilot.getAngle()+3)%360);
         }else{
 
         }
 
-        if(Gdx.input.isTouched()) {
-//            if(orbiting == true){
-//                orbiting = false;
-//            }
-            orbiting = !orbiting;
-        }
+        Gdx.input.setInputProcessor(new InputAdapter(){
+
+            @Override
+            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+                orbiting = !orbiting;
+                return true;
+            }
+
+        });
 	}
 	
 	@Override
