@@ -16,9 +16,7 @@ public class Pilot {
     private int centerY;
     private Vector2 trajectory = null;
     private int velocity;
-
-
-    Planet orbitingPlanet;
+        Planet orbitingPlanet;
 
     Pilot(Planet orbitingPlanet){
         this.centerX = (int)(orbitingPlanet.getGravityInfo().x + Math.cos(Math.toRadians(angle))*orbitingPlanet.getGravityInfo().radius);
@@ -38,6 +36,10 @@ public class Pilot {
 
     public Planet getOrbitingPlanet() {
         return orbitingPlanet;
+    }
+
+    public void setOrbitingPlanet(Planet orbitingPlanet) {
+        this.orbitingPlanet = orbitingPlanet;
     }
 
     public void setAngle(int angle) {
